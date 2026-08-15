@@ -1,6 +1,7 @@
 package com.Bankflow.customer.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -26,29 +27,23 @@ public class Customer {
     @Column(nullable = false)
     private String status;
 
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
     public Customer() {
     }
 
-    public Customer(
-            String firstName,
-            String lastName,
-            String email,
-            String phone,
-            String status
-    ) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.status = status;
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+
+        if (status == null) {
+            status = "ACTIVE";
+        }
     }
 
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -87,7 +82,7 @@ public class Customer {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
