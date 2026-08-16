@@ -1,0 +1,13 @@
+package com.bankflow.corebanking.repository;
+
+import com.bankflow.corebanking.entity.BankTransaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface BankTransactionRepository
+        extends JpaRepository<BankTransaction, UUID> {
+
+    List<BankTransaction> findByAccountIdOrderByCreatedAtDesc(UUID accountId);
+}
