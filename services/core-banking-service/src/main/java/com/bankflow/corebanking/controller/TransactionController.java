@@ -7,13 +7,18 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/transactions")
 public class TransactionController {
 
     private final TransactionService transactionService;
 
-    public TransactionController(TransactionService transactionService) {
+    public TransactionController(
+            TransactionService transactionService) {
+
         this.transactionService = transactionService;
     }
 
@@ -26,10 +31,29 @@ public class TransactionController {
     }
 
     @PostMapping("/withdraw")
-@ResponseStatus(HttpStatus.CREATED)
-public BankTransaction withdraw(
-        @Valid @RequestBody TransactionRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public BankTransaction withdraw(
+            @Valid @RequestBody TransactionRequest request) {
 
-    return transactionService.withdraw(request);
-}
+        return transactionService.withdraw(request);
+    }
+
+    @PostMapping("/transfer")
+    @ResponseStatus(HttpStatus.CREATED)
+    public BankTransaction transfer(
+            @RequestHeader("Idempotency-Key") String idempotencyKey,
+            @Valid @RequestBody TransactionRequest request) {
+
+        return transactionService.transfer(
+                request,
+                idempotencyKey
+        );
+    }
+
+    @GetMapping("/account/{accountId}")
+    public List<BankTransaction> getTransactions(
+            @PathVariable UUID accountId) {
+
+        return transactionService.getTransactions(accountId);
+    }
 }
