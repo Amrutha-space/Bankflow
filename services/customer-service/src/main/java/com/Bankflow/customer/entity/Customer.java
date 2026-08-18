@@ -85,4 +85,9 @@ public class Customer {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public void setStatus(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setStatus'");
+    }
 }
