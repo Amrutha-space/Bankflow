@@ -46,8 +46,8 @@ public class OnboardingService {
                                 "Onboarding application not found"));
     }
 
-    public List<OnboardingApplication>
-    getCustomerApplications(UUID customerId) {
+    public List<OnboardingApplication> getCustomerApplications(
+            UUID customerId) {
 
         return onboardingRepository
                 .findByCustomerId(customerId);
